@@ -1,20 +1,24 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android)
+    alias(libs.plugins.kotlinAndroid)
+    base
+}
+base{
+    archivesName.set("Draw_v${version}")
 }
 
 android {
-    namespace = "com.example.draw"
-    compileSdk = 34
+    namespace = project.libs.versions.app.version.appId.get()
+    compileSdk = project.libs.versions.app.build.compileSDKVersion.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.draw"
-        minSdk = 27
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
+        applicationId = project.libs.versions.app.version.appId.get()
+        minSdk = project.libs.versions.app.build.minimumSDK.get().toInt()
+        targetSdk = project.libs.versions.app.build.targetSDK.get().toInt()
+        versionCode = project.libs.versions.app.version.verionCode.get().toInt()
+        versionName =  project.libs.versions.app.version.versionName.get()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -33,15 +37,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.14-SNAPSHOT")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.constraintlayout)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso)
 }
